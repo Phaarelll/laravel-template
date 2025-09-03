@@ -1,0 +1,134 @@
+/* Dark Mode Styles */
+:root {
+  --bs-body-bg: #fff;
+  --bs-body-color: #697a8d;
+  --bs-card-bg: #fff;
+  --bs-navbar-bg: #fff;
+  --bs-sidebar-bg: #fff;
+  --bs-border-color: #d9dee3;
+  --bs-input-bg: #fff;
+  --bs-input-color: #697a8d;
+}
+
+[data-theme="dark"] {
+  --bs-body-bg: #232333;
+  --bs-body-color: #a1acb8;
+  --bs-card-bg: #2f2b3d;
+  --bs-navbar-bg: #2f2b3d;
+  --bs-sidebar-bg: #2f2b3d;
+  --bs-border-color: #444564;
+  --bs-input-bg: #2f2b3d;
+  --bs-input-color: #a1acb8;
+}
+
+/* Apply dark mode styles */
+.dark-mode {
+  background-color: var(--bs-body-bg) !important;
+  color: var(--bs-body-color) !important;
+}
+
+.dark-mode .card {
+  background-color: var(--bs-card-bg) !important;
+  border-color: var(--bs-border-color) !important;
+  color: var(--bs-body-color) !important;
+}
+
+.dark-mode .navbar,
+.dark-mode .layout-navbar {
+  background-color: var(--bs-navbar-bg) !important;
+  border-color: var(--bs-border-color) !important;
+}
+
+.dark-mode .layout-menu,
+.dark-mode .menu {
+  background-color: var(--bs-sidebar-bg) !important;
+  border-color: var(--bs-border-color) !important;
+}
+
+.dark-mode .form-control,
+.dark-mode .form-select {
+  background-color: var(--bs-input-bg) !important;
+  border-color: var(--bs-border-color) !important;
+  color: var(--bs-input-color) !important;
+}
+
+.dark-mode .form-control:focus,
+.dark-mode .form-select:focus {
+  background-color: var(--bs-input-bg) !important;
+  border-color: #696cff !important;
+  color: var(--bs-input-color) !important;
+}
+
+.dark-mode .dropdown-menu {
+  background-color: var(--bs-card-bg) !important;
+  border-color: var(--bs-border-color) !important;
+}
+
+.dark-mode .dropdown-item {
+  color: var(--bs-body-color) !important;
+}
+
+.dark-mode .dropdown-item:hover,
+.dark-mode .dropdown-item:focus {
+  background-color: var(--bs-border-color) !important;
+  color: var(--bs-body-color) !important;
+}
+
+.dark-mode .alert {
+  border-color: var(--bs-border-color) !important;
+}
+
+.dark-mode .alert-success {
+  background-color: rgba(113, 221, 55, 0.1) !important;
+  border-color: rgba(113, 221, 55, 0.2) !important;
+  color: #71dd37 !important;
+}
+
+.dark-mode .alert-danger {
+  background-color: rgba(255, 62, 29, 0.1) !important;
+  border-color: rgba(255, 62, 29, 0.2) !important;
+  color: #ff3e1d !important;
+}
+
+.dark-mode .text-muted {
+  color: #7c8fac !important;
+}
+
+.dark-mode .border,
+.dark-mode hr {
+  border-color: var(--bs-border-color) !important;
+}
+
+.dark-mode .menu-item .menu-link {
+  color: var(--bs-body-color) !important;
+}
+
+.dark-mode .menu-item.active > .menu-link {
+  background-color: rgba(105, 108, 255, 0.16) !important;
+  color: #696cff !important;
+}
+
+.dark-mode .btn-outline-primary {
+  border-color: #696cff !important;
+  color: #696cff !important;
+}
+
+.dark-mode .btn-outline-primary:hover {
+  background-color: #696cff !important;
+  border-color: #696cff !important;
+}
+
+.dark-mode .btn-outline-secondary {
+  border-color: var(--bs-border-color) !important;
+  color: var(--bs-body-color) !important;
+}
+
+.dark-mode .btn-outline-secondary:hover {
+  background-color: var(--bs-border-color) !important;
+  border-color: var(--bs-border-color) !important;
+}
+
+/* Dark mode transition */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
