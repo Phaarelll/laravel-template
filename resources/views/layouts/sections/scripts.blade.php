@@ -3,21 +3,16 @@
 <script src="{{ asset(mix('assets/vendor/libs/popper/popper.js')) }}"></script>
 <script src="{{ asset(mix('assets/vendor/js/bootstrap.js')) }}"></script>
 <script src="{{ asset(mix('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js')) }}"></script>
-
 <script src="{{ asset(mix('assets/vendor/js/menu.js')) }}"></script>
-<!-- endbuild -->
-
-<!-- Vendors JS -->
 @yield('vendor-script')
-
-<!-- Main JS -->
+<!-- END: Page Vendor JS-->
+<!-- BEGIN: Theme JS-->
 <script src="{{ asset(mix('assets/js/main.js')) }}"></script>
-
-<!-- Dark Mode JS -->
-<script src="{{ asset('assets/js/dark-mode.js') }}"></script>
-
-<!-- Page JS -->
+<script src="{{ asset('assets/js/search.js') }}"></script>
+<!-- END: Theme JS-->
+<!-- BEGIN: Page JS-->
 @yield('page-script')
+<!-- END: Page JS-->
+<script src="{{ asset('assets/js/dark-mode.js') }}"></script>
 <!-- Pricing Modal JS-->
 @stack('pricing-script')
-<!-- END: Pricing Modal JS-->

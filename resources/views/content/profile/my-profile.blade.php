@@ -164,10 +164,13 @@
       <h5 class="card-header">Quick Actions</h5>
       <div class="card-body">
         <div class="d-grid gap-2">
-          <a href="{{ route('auth-login-basic') }}" class="btn btn-outline-primary">
-            <i class="bx bx-log-out me-1"></i>
-            Logout
-          </a>
+          <form method="POST" action="{{ route('auth-logout') }}" class="d-inline">
+            @csrf
+            <button type="submit" class="btn btn-outline-primary w-100">
+              <i class="bx bx-log-out me-1"></i>
+              Logout
+            </button>
+          </form>
           <a href="{{ route('dashboard-analytics') }}" class="btn btn-outline-secondary">
             <i class="bx bx-home me-1"></i>
             Go to Dashboard

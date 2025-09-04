@@ -17,6 +17,8 @@ use App\Http\Controllers\authentications\RegisterBasic;
 use App\Http\Controllers\authentications\ForgotPasswordBasic;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\SearchController;
+use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\cards\CardBasic;
 use App\Http\Controllers\user_interface\Accordion;
 use App\Http\Controllers\user_interface\Alerts;
@@ -65,6 +67,7 @@ Route::get('/pages/misc-under-maintenance', [MiscUnderMaintenance::class, 'index
 
 // authentication
 Route::get('/auth/login-basic', [LoginBasic::class, 'index'])->name('auth-login-basic');
+Route::post('/auth/logout', [LoginBasic::class, 'logout'])->name('auth-logout');
 Route::get('/auth/register-basic', [RegisterBasic::class, 'index'])->name('auth-register-basic');
 Route::post('/auth/register-basic', [RegisterBasic::class, 'store'])->name('auth-register-store');
 Route::get('/auth/forgot-password-basic', [ForgotPasswordBasic::class, 'index'])->name('auth-forgot-password-basic');
@@ -79,6 +82,17 @@ Route::put('/profile', [ProfileController::class, 'update'])->name('profile.upda
 // Settings routes
 Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
 Route::put('/settings', [SettingsController::class, 'update'])->name('settings.update');
+
+// Search routes
+Route::get('/search', [SearchController::class, 'search'])->name('search');
+Route::get('/search/autocomplete', [SearchController::class, 'autocomplete'])->name('search.autocomplete');
+
+// Calendar routes
+Route::get('/calendar', [CalendarController::class, 'index'])->name('calendar');
+Route::get('/calendar/events', [CalendarController::class, 'getEvents'])->name('calendar.events');
+Route::post('/calendar/events', [CalendarController::class, 'store'])->name('calendar.store');
+Route::put('/calendar/events', [CalendarController::class, 'update'])->name('calendar.update');
+Route::delete('/calendar/events', [CalendarController::class, 'destroy'])->name('calendar.destroy');
 
 // cards
 Route::get('/cards/basic', [CardBasic::class, 'index'])->name('cards-basic');

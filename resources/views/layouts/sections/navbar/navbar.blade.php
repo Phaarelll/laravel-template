@@ -35,10 +35,10 @@ $navbarDetached = ($navbarDetached ?? '');
       <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
         <!-- Search -->
         <div class="navbar-nav align-items-center">
-          <div class="nav-item d-flex align-items-center">
+          <form method="GET" action="{{ route('search') }}" class="nav-item d-flex align-items-center">
             <i class="bx bx-search fs-4 lh-0"></i>
-            <input type="text" class="form-control border-0 shadow-none ps-1 ps-sm-2" placeholder="Search..." aria-label="Search...">
-          </div>
+            <input type="text" name="q" class="form-control border-0 shadow-none ps-1 ps-sm-2" placeholder="Search..." aria-label="Search..." value="{{ request('q') }}">
+          </form>
         </div>
         <!-- /Search -->
         <ul class="navbar-nav flex-row align-items-center ms-auto">
@@ -87,22 +87,16 @@ $navbarDetached = ($navbarDetached ?? '');
                 </a>
               </li>
               <li>
-                <a class="dropdown-item" href="javascript:void(0);">
-                  <span class="d-flex align-items-center align-middle">
-                    <i class="flex-shrink-0 bx bx-credit-card me-2 pe-1"></i>
-                    <span class="flex-grow-1 align-middle">Billing</span>
-                    <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
-                  </span>
-                </a>
-              </li>
-              <li>
                 <div class="dropdown-divider"></div>
               </li>
               <li>
-                <a class="dropdown-item" href="javascript:void(0);">
-                  <i class='bx bx-power-off me-2'></i>
-                  <span class="align-middle">Log Out</span>
-                </a>
+                <form method="POST" action="{{ route('auth-logout') }}" class="d-inline">
+                  @csrf
+                  <button type="submit" class="dropdown-item" style="border: none; background: none; width: 100%; text-align: left;">
+                    <i class='bx bx-power-off me-2'></i>
+                    <span class="align-middle">Log Out</span>
+                  </button>
+                </form>
               </li>
             </ul>
           </li>
