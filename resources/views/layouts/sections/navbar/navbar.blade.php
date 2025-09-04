@@ -35,10 +35,12 @@ $navbarDetached = ($navbarDetached ?? '');
       <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
         <!-- Search -->
         <div class="navbar-nav align-items-center">
-          <form method="GET" action="{{ route('search') }}" class="nav-item d-flex align-items-center">
-            <i class="bx bx-search fs-4 lh-0"></i>
-            <input type="text" name="q" class="form-control border-0 shadow-none ps-1 ps-sm-2" placeholder="Search..." aria-label="Search..." value="{{ request('q') }}">
-          </form>
+          <div class="nav-item d-flex align-items-center position-relative">
+            <form method="GET" action="{{ route('search') }}" class="d-flex align-items-center w-100">
+              <i class="bx bx-search fs-4 lh-0 me-2" style="cursor: pointer;"></i>
+              <input type="text" name="q" class="form-control border-0 shadow-none ps-1 ps-sm-2" placeholder="Search menus & users..." aria-label="Search..." value="{{ request('q') }}" autocomplete="off">
+            </form>
+          </div>
         </div>
         <!-- /Search -->
         <ul class="navbar-nav flex-row align-items-center ms-auto">

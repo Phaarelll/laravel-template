@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use App\Models\CalendarEvent;
 
 class CalendarController extends Controller
 {
@@ -35,63 +36,86 @@ class CalendarController extends Controller
     $daysInMonth = $firstDay->daysInMonth;
     $startDayOfWeek = $firstDay->dayOfWeek; // 0 = Sunday, 1 = Monday, etc.
 
-    // Get events from session (temporary storage)
-    $allEvents = session('calendar_events', []);
-    $monthKey = $currentDate->format('Y-m');
+    // Get events from database
+    $dbEvents = CalendarEvent::getEventsForMonth($currentYear, $currentMonth);
     $events = [];
 
-    // Filter events for current month
-    foreach ($allEvents as $date => $eventList) {
-      if (strpos($date, $monthKey) === 0) {
-        $events[$date] = $eventList;
+    // Group events by date
+    foreach ($dbEvents as $event) {
+      $dateKey = $event->event_date->format('Y-m-d');
+      if (!isset($events[$dateKey])) {
+        $events[$dateKey] = [];
       }
+      $events[$dateKey][] = [
+        'id' => $event->id,
+        'title' => $event->title,
+        'time' => $event->event_time ? $event->event_time->format('H:i') : null,
+        'category' => $event->category,
+        'description' => $event->description,
+      ];
     }
 
-    // Add sample events if no events exist
+    // Add sample events if no events exist in database
     if (empty($events)) {
-      $events = [
-        $currentDate->format('Y-m-15') => [
-          [
-            'id' => 'sample1',
-            'title' => 'Team Meeting',
-            'time' => '10:00',
-            'category' => 'work',
-            'description' => 'Weekly team sync meeting',
-          ],
-          [
-            'id' => 'sample2',
-            'title' => 'Project Review',
-            'time' => '14:00',
-            'category' => 'work',
-            'description' => 'Review project progress',
-          ],
+      $sampleEvents = [
+        [
+          'title' => 'Team Meeting',
+          'event_date' => $currentDate->format('Y-m-15'),
+          'event_time' => '10:00',
+          'category' => 'work',
+          'description' => 'Weekly team sync meeting',
         ],
-        $currentDate->format('Y-m-20') => [
-          [
-            'id' => 'sample3',
-            'title' => 'Client Presentation',
-            'time' => '09:00',
-            'category' => 'meeting',
-            'description' => 'Present quarterly results',
-          ],
+        [
+          'title' => 'Project Review',
+          'event_date' => $currentDate->format('Y-m-15'),
+          'event_time' => '14:00',
+          'category' => 'work',
+          'description' => 'Review project progress',
         ],
-        $currentDate->format('Y-m-25') => [
-          [
-            'id' => 'sample4',
-            'title' => 'Workshop',
-            'time' => '13:00',
-            'category' => 'training',
-            'description' => 'Skills development workshop',
-          ],
-          [
-            'id' => 'sample5',
-            'title' => 'Training Session',
-            'time' => '15:30',
-            'category' => 'training',
-            'description' => 'Advanced techniques training',
-          ],
+        [
+          'title' => 'Client Presentation',
+          'event_date' => $currentDate->format('Y-m-20'),
+          'event_time' => '09:00',
+          'category' => 'meeting',
+          'description' => 'Present quarterly results',
+        ],
+        [
+          'title' => 'Workshop',
+          'event_date' => $currentDate->format('Y-m-25'),
+          'event_time' => '13:00',
+          'category' => 'training',
+          'description' => 'Skills development workshop',
+        ],
+        [
+          'title' => 'Training Session',
+          'event_date' => $currentDate->format('Y-m-25'),
+          'event_time' => '15:30',
+          'category' => 'training',
+          'description' => 'Advanced techniques training',
         ],
       ];
+
+      // Insert sample events into database
+      foreach ($sampleEvents as $sampleEvent) {
+        CalendarEvent::create($sampleEvent);
+      }
+
+      // Reload events from database
+      $dbEvents = CalendarEvent::getEventsForMonth($currentYear, $currentMonth);
+      $events = [];
+      foreach ($dbEvents as $event) {
+        $dateKey = $event->event_date->format('Y-m-d');
+        if (!isset($events[$dateKey])) {
+          $events[$dateKey] = [];
+        }
+        $events[$dateKey][] = [
+          'id' => $event->id,
+          'title' => $event->title,
+          'time' => $event->event_time ? $event->event_time->format('H:i') : null,
+          'category' => $event->category,
+          'description' => $event->description,
+        ];
+      }
     }
 
     return view(
@@ -102,25 +126,24 @@ class CalendarController extends Controller
 
   public function getEvents(Request $request)
   {
-    // This method can be used for AJAX requests to get events
+    // Get events from database for AJAX requests
     $month = $request->get('month', date('m'));
     $year = $request->get('year', date('Y'));
 
-    // Sample events - replace with actual database query
-    $events = [
-      [
-        'id' => 1,
-        'title' => 'Team Meeting',
-        'start' => $year . '-' . str_pad($month, 2, '0', STR_PAD_LEFT) . '-15',
-        'color' => '#007bff',
-      ],
-      [
-        'id' => 2,
-        'title' => 'Project Deadline',
-        'start' => $year . '-' . str_pad($month, 2, '0', STR_PAD_LEFT) . '-25',
-        'color' => '#dc3545',
-      ],
-    ];
+    $dbEvents = CalendarEvent::getEventsForMonth($year, $month);
+    $events = [];
+
+    foreach ($dbEvents as $event) {
+      $events[] = [
+        'id' => $event->id,
+        'title' => $event->title,
+        'start' => $event->event_date->format('Y-m-d'),
+        'color' => $event->category_color,
+        'time' => $event->event_time ? $event->event_time->format('H:i') : null,
+        'description' => $event->description,
+        'category' => $event->category,
+      ];
+    }
 
     return response()->json($events);
   }
@@ -135,60 +158,44 @@ class CalendarController extends Controller
       'category' => 'nullable|string',
     ]);
 
-    $events = session('calendar_events', []);
-    $date = $request->date;
-
-    if (!isset($events[$date])) {
-      $events[$date] = [];
-    }
-
-    $eventId = uniqid();
-    $events[$date][] = [
-      'id' => $eventId,
+    $event = CalendarEvent::create([
       'title' => $request->title,
-      'time' => $request->time,
+      'event_date' => $request->date,
+      'event_time' => $request->time,
       'description' => $request->description,
       'category' => $request->category ?? 'general',
-    ];
+    ]);
 
-    session(['calendar_events' => $events]);
-
-    return response()->json(['success' => true]);
+    return response()->json([
+      'success' => true,
+      'event' => $event
+    ]);
   }
 
   public function destroy(Request $request)
   {
     $eventId = $request->get('event_id');
-    $date = $request->get('date');
 
-    // Get existing events from session
-    $allEvents = session('calendar_events', []);
-
-    if (isset($allEvents[$date])) {
-      // Remove event with matching ID
-      $allEvents[$date] = array_filter($allEvents[$date], function ($event) use ($eventId) {
-        return $event['id'] !== $eventId;
-      });
-
-      // Remove date if no events left
-      if (empty($allEvents[$date])) {
-        unset($allEvents[$date]);
-      }
+    $event = CalendarEvent::find($eventId);
+    
+    if ($event) {
+      $event->delete();
+      return response()->json([
+        'success' => true,
+        'message' => 'Event deleted successfully!',
+      ]);
     }
 
-    // Save back to session
-    session(['calendar_events' => $allEvents]);
-
     return response()->json([
-      'success' => true,
-      'message' => 'Event deleted successfully!',
-    ]);
+      'success' => false,
+      'message' => 'Event not found!',
+    ], 404);
   }
 
   public function update(Request $request)
   {
     $request->validate([
-      'event_id' => 'required|string',
+      'event_id' => 'required|integer',
       'date' => 'required|date',
       'title' => 'required|string|max:255',
       'time' => 'nullable|string',
@@ -196,53 +203,27 @@ class CalendarController extends Controller
       'category' => 'nullable|string',
     ]);
 
-    $eventId = $request->event_id;
-    $newDate = $request->date;
-    $originalDate = $request->input('original_date', $newDate);
+    $event = CalendarEvent::find($request->event_id);
 
-    // Get existing events from session
-    $allEvents = session('calendar_events', []);
-
-    $eventToUpdate = null;
-
-    // Find and remove the event from original date
-    if (isset($allEvents[$originalDate])) {
-      foreach ($allEvents[$originalDate] as $index => $event) {
-        if ($event['id'] === $eventId) {
-          $eventToUpdate = $event;
-          unset($allEvents[$originalDate][$index]);
-          $allEvents[$originalDate] = array_values($allEvents[$originalDate]);
-
-          // Remove date if no events left
-          if (empty($allEvents[$originalDate])) {
-            unset($allEvents[$originalDate]);
-          }
-          break;
-        }
-      }
-    }
-
-    // Add updated event to new date
-    if ($eventToUpdate) {
-      if (!isset($allEvents[$newDate])) {
-        $allEvents[$newDate] = [];
-      }
-
-      $allEvents[$newDate][] = [
-        'id' => $eventId,
+    if ($event) {
+      $event->update([
         'title' => $request->title,
-        'time' => $request->time,
+        'event_date' => $request->date,
+        'event_time' => $request->time,
         'description' => $request->description,
         'category' => $request->category ?? 'general',
-      ];
+      ]);
+
+      return response()->json([
+        'success' => true,
+        'message' => 'Event updated successfully!',
+        'event' => $event
+      ]);
     }
 
-    // Save back to session
-    session(['calendar_events' => $allEvents]);
-
     return response()->json([
-      'success' => true,
-      'message' => 'Event updated successfully!',
-    ]);
+      'success' => false,
+      'message' => 'Event not found!',
+    ], 404);
   }
 }
