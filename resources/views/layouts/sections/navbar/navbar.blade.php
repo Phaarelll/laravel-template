@@ -33,16 +33,41 @@ $navbarDetached = ($navbarDetached ?? '');
       @endif
 
       <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
-        <!-- Search -->
-        <div class="navbar-nav align-items-center">
-          <div class="nav-item d-flex align-items-center position-relative">
-            <form method="GET" action="{{ route('search') }}" class="d-flex align-items-center w-100">
-              <i class="bx bx-search fs-4 lh-0 me-2" style="cursor: pointer;"></i>
-              <input type="text" name="q" class="form-control border-0 shadow-none ps-1 ps-sm-2" placeholder="Search menus & users..." aria-label="Search..." value="{{ request('q') }}" autocomplete="off">
-            </form>
+
+        <!-- Shopping Cart -->
+        <div class="navbar-nav align-items-center me-3">
+          <div class="nav-item">
+            <a class="nav-link position-relative" href="{{ url('/cart') }}" id="cartLink">
+              <i class="bx bx-cart bx-sm"></i>
+              <span class="badge bg-danger rounded-pill position-absolute top-0 start-100 translate-middle cart-badge" id="cartBadge" style="display: none;">0</span>
+            </a>
           </div>
         </div>
-        <!-- /Search -->
+        <!-- /Shopping Cart -->
+
+        <!-- Navigation Menu Items -->
+        <ul class="navbar-nav flex-row align-items-center me-3">
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url('/') }}">
+              <i class="bx bx-home me-1"></i>
+              <span class="d-none d-sm-inline">Home</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url('/shop') }}">
+              <i class="bx bx-store me-1"></i>
+              <span class="d-none d-sm-inline">Shop</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url('/contact') }}">
+              <i class="bx bx-envelope me-1"></i>
+              <span class="d-none d-sm-inline">Contact</span>
+            </a>
+          </li>
+        </ul>
+        <!-- /Navigation Menu Items -->
+
         <ul class="navbar-nav flex-row align-items-center ms-auto">
 
           <!-- Place this tag where you want the button to render. -->
@@ -67,7 +92,7 @@ $navbarDetached = ($navbarDetached ?? '');
                       </div>
                     </div>
                     <div class="flex-grow-1">
-                      <span class="fw-medium d-block">John Doe</span>
+                      <span class="fw-medium d-block">Farrel</span>
                       <small class="text-muted">Admin</small>
                     </div>
                   </div>

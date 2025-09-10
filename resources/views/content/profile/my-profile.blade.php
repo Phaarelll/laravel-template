@@ -180,4 +180,139 @@
     </div>
   </div>
 </div>
+
+<!-- Add Product Section -->
+<div class="row mt-4">
+  <div class="col-md-12">
+    <div class="card">
+      <h5 class="card-header">
+        <i class="bx bx-plus-circle me-2 text-primary"></i>
+        Add New Product
+      </h5>
+      <div class="card-body">
+        @if (session('product_success'))
+          <div class="alert alert-success">
+            {{ session('product_success') }}
+          </div>
+        @endif
+
+        @if (session('product_error'))
+          <div class="alert alert-danger">
+            {{ session('product_error') }}
+          </div>
+        @endif
+
+        <form id="addProductForm" method="POST" action="{{ route('profile.add-product') }}" enctype="multipart/form-data">
+          @csrf
+          <div class="row">
+            <div class="mb-3 col-md-6">
+              <label for="product_name" class="form-label">Product Name</label>
+              <input
+                class="form-control"
+                type="text"
+                id="product_name"
+                name="name"
+                placeholder="Enter product name"
+                required
+              />
+            </div>
+            <div class="mb-3 col-md-6">
+              <label for="product_price" class="form-label">Price (Rp)</label>
+              <input
+                class="form-control"
+                type="number"
+                id="product_price"
+                name="price"
+                placeholder="0"
+                step="1000"
+                min="0"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="mb-3 col-md-6">
+              <label for="product_category" class="form-label">Category</label>
+              <select class="form-select" id="product_category" name="category" required>
+                <option value="">Select Category</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Accessories">Accessories</option>
+                <option value="Gaming">Gaming</option>
+                <option value="Clothing">Clothing</option>
+                <option value="Home">Home</option>
+              </select>
+            </div>
+            <div class="mb-3 col-md-6">
+              <label for="product_stock" class="form-label">Stock Quantity</label>
+              <input
+                class="form-control"
+                type="number"
+                id="product_stock"
+                name="stock_quantity"
+                placeholder="0"
+                min="0"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="product_description" class="form-label">Description</label>
+            <textarea
+              class="form-control"
+              id="product_description"
+              name="description"
+              rows="3"
+              placeholder="Enter product description"
+              required
+            ></textarea>
+          </div>
+
+          <div class="mb-3">
+            <label for="product_image" class="form-label">Product Image</label>
+            <input
+              class="form-control"
+              type="file"
+              id="product_image"
+              name="image"
+              accept="image/png, image/jpeg, image/jpg"
+            />
+            <div class="form-text">Allowed JPG, JPEG or PNG. Max size of 2MB</div>
+          </div>
+
+          <div class="row">
+            <div class="mb-3 col-md-6">
+              <label for="product_rating" class="form-label">Initial Rating</label>
+              <select class="form-select" id="product_rating" name="rating">
+                <option value="4.0">4.0 ⭐⭐⭐⭐</option>
+                <option value="4.5" selected>4.5 ⭐⭐⭐⭐⭐</option>
+                <option value="5.0">5.0 ⭐⭐⭐⭐⭐</option>
+              </select>
+            </div>
+            <div class="mb-3 col-md-6">
+              <div class="form-check mt-4">
+                <input class="form-check-input" type="checkbox" id="product_active" name="is_active" checked>
+                <label class="form-check-label" for="product_active">
+                  Active Product
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-3">
+            <button type="submit" class="btn btn-primary me-2">
+              <i class="bx bx-plus me-1"></i>
+              Add Product
+            </button>
+            <button type="reset" class="btn btn-outline-secondary">
+              <i class="bx bx-reset me-1"></i>
+              Reset Form
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 @endsection

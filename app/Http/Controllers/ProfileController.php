@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
+use App\Models\Product;
 
 class ProfileController extends Controller
 {
@@ -95,5 +96,72 @@ class ProfileController extends Controller
 
         return redirect()->back()
             ->with('success', 'Profile berhasil diperbarui!');
+    }
+
+    public function show()
+    {
+        return $this->index();
+    }
+
+    public function addProduct(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'description' => 'required|string|max:1000',
+            'price' => 'required|numeric|min:0',
+            'category' => 'required|string|max:100',
+            'stock_quantity' => 'required|integer|min:0',
+            'rating' => 'required|numeric|min:1|max:5',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'is_active' => 'boolean'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput()
+                ->with('product_error', 'Please check the form for errors.');
+        }
+
+        try {
+            $imagePath = '/assets/img/products/placeholder.svg'; // Default image
+
+            // Handle image upload
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+                
+                // Create products directory if it doesn't exist
+                $productsDir = public_path('assets/img/products');
+                if (!file_exists($productsDir)) {
+                    mkdir($productsDir, 0755, true);
+                }
+                
+                // Move the uploaded file
+                $image->move($productsDir, $imageName);
+                $imagePath = '/assets/img/products/' . $imageName;
+            }
+
+            // Create the product
+            Product::create([
+                'name' => $request->name,
+                'description' => $request->description,
+                'price' => $request->price,
+                'category' => $request->category,
+                'image' => $imagePath,
+                'rating' => $request->rating,
+                'stock_quantity' => $request->stock_quantity,
+                'in_stock' => $request->stock_quantity > 0,
+                'is_active' => $request->has('is_active') ? true : false
+            ]);
+
+            return redirect()->back()
+                ->with('product_success', 'Product "' . $request->name . '" has been added successfully!');
+
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('product_error', 'Failed to add product. Please try again.')
+                ->withInput();
+        }
     }
 }

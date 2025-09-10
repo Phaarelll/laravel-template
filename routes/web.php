@@ -19,6 +19,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\CalendarController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ShopController;
 use App\Http\Controllers\cards\CardBasic;
 use App\Http\Controllers\user_interface\Accordion;
 use App\Http\Controllers\user_interface\Alerts;
@@ -78,6 +80,7 @@ Route::post('/auth/reset-password', [ForgotPasswordBasic::class, 'resetPassword'
 // Profile routes
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
 Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+Route::post('/profile/add-product', [ProfileController::class, 'addProduct'])->name('profile.add-product');
 
 // Settings routes
 Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
@@ -93,6 +96,20 @@ Route::get('/calendar/events', [CalendarController::class, 'getEvents'])->name('
 Route::post('/calendar/events', [CalendarController::class, 'store'])->name('calendar.store');
 Route::put('/calendar/events', [CalendarController::class, 'update'])->name('calendar.update');
 Route::delete('/calendar/events', [CalendarController::class, 'destroy'])->name('calendar.destroy');
+
+// Contact routes
+Route::get('/contact', [ContactController::class, 'index'])->name('contact');
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+
+// Shop routes
+Route::get('/shop', [ShopController::class, 'index'])->name('shop');
+
+// Cart routes
+Route::get('/cart', [ShopController::class, 'cart'])->name('cart');
+Route::post('/cart/add', [ShopController::class, 'addToCart'])->name('cart.add');
+Route::put('/cart/update', [ShopController::class, 'updateCart'])->name('cart.update');
+Route::delete('/cart/remove', [ShopController::class, 'removeFromCart'])->name('cart.remove');
+Route::get('/cart/items', [ShopController::class, 'getCartItems'])->name('cart.items');
 
 // cards
 Route::get('/cards/basic', [CardBasic::class, 'index'])->name('cards-basic');
