@@ -61,11 +61,19 @@ Route::get('/layouts/container', [Container::class, 'index'])->name('layouts-con
 Route::get('/layouts/blank', [Blank::class, 'index'])->name('layouts-blank');
 
 // pages
-Route::get('/pages/account-settings-account', [AccountSettingsAccount::class, 'index'])->name('pages-account-settings-account');
-Route::get('/pages/account-settings-notifications', [AccountSettingsNotifications::class, 'index'])->name('pages-account-settings-notifications');
-Route::get('/pages/account-settings-connections', [AccountSettingsConnections::class, 'index'])->name('pages-account-settings-connections');
+Route::get('/pages/account-settings-account', [AccountSettingsAccount::class, 'index'])->name(
+  'pages-account-settings-account'
+);
+Route::get('/pages/account-settings-notifications', [AccountSettingsNotifications::class, 'index'])->name(
+  'pages-account-settings-notifications'
+);
+Route::get('/pages/account-settings-connections', [AccountSettingsConnections::class, 'index'])->name(
+  'pages-account-settings-connections'
+);
 Route::get('/pages/misc-error', [MiscError::class, 'index'])->name('pages-misc-error');
-Route::get('/pages/misc-under-maintenance', [MiscUnderMaintenance::class, 'index'])->name('pages-misc-under-maintenance');
+Route::get('/pages/misc-under-maintenance', [MiscUnderMaintenance::class, 'index'])->name(
+  'pages-misc-under-maintenance'
+);
 
 // authentication
 Route::get('/auth/login-basic', [LoginBasic::class, 'index'])->name('auth-login-basic');
@@ -74,7 +82,9 @@ Route::get('/auth/register-basic', [RegisterBasic::class, 'index'])->name('auth-
 Route::post('/auth/register-basic', [RegisterBasic::class, 'store'])->name('auth-register-store');
 Route::get('/auth/forgot-password-basic', [ForgotPasswordBasic::class, 'index'])->name('auth-forgot-password-basic');
 Route::post('/auth/forgot-password-basic', [ForgotPasswordBasic::class, 'store'])->name('auth-forgot-password-store');
-Route::get('/auth/reset-password/{token}', [ForgotPasswordBasic::class, 'showResetForm'])->name('auth-reset-password-basic');
+Route::get('/auth/reset-password/{token}', [ForgotPasswordBasic::class, 'showResetForm'])->name(
+  'auth-reset-password-basic'
+);
 Route::post('/auth/reset-password', [ForgotPasswordBasic::class, 'resetPassword'])->name('auth-reset-password-store');
 
 // Profile routes
@@ -103,6 +113,7 @@ Route::post('/contact', [ContactController::class, 'store'])->name('contact.stor
 
 // Shop routes
 Route::get('/shop', [ShopController::class, 'index'])->name('shop');
+Route::get('/shop/product/{id}', [ShopController::class, 'show'])->name('shop.product');
 
 // Cart routes
 Route::get('/cart', [ShopController::class, 'cart'])->name('cart');

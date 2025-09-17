@@ -281,22 +281,12 @@
             <div class="form-text">Allowed JPG, JPEG or PNG. Max size of 2MB</div>
           </div>
 
-          <div class="row">
-            <div class="mb-3 col-md-6">
-              <label for="product_rating" class="form-label">Initial Rating</label>
-              <select class="form-select" id="product_rating" name="rating">
-                <option value="4.0">4.0 ⭐⭐⭐⭐</option>
-                <option value="4.5" selected>4.5 ⭐⭐⭐⭐⭐</option>
-                <option value="5.0">5.0 ⭐⭐⭐⭐⭐</option>
-              </select>
-            </div>
-            <div class="mb-3 col-md-6">
-              <div class="form-check mt-4">
-                <input class="form-check-input" type="checkbox" id="product_active" name="is_active" checked>
-                <label class="form-check-label" for="product_active">
-                  Active Product
-                </label>
-              </div>
+          <div class="mb-3">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="product_active" name="is_active" checked>
+              <label class="form-check-label" for="product_active">
+                Active Product
+              </label>
             </div>
           </div>
 

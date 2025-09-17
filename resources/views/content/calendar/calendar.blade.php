@@ -1,4 +1,4 @@
-@extends('layouts/contentNavbarLayout')
+  @extends('layouts/contentNavbarLayout')
 
 @section('title', 'Calendar')
 
@@ -102,7 +102,7 @@
       <div class="card-header d-flex justify-content-between align-items-center">
         <h5 class="mb-0">
           <i class="bx bx-calendar me-2"></i>
-          Calendar - {{ $currentDate->format('F Y') }}
+          Launching Product- {{ $currentDate->format('F Y') }}
         </h5>
         <div class="btn-group">
           <button type="button" class="btn btn-outline-primary btn-sm" onclick="previousMonth()">
@@ -127,12 +127,12 @@
             <div class="calendar-day-header">Thu</div>
             <div class="calendar-day-header">Fri</div>
             <div class="calendar-day-header">Sat</div>
-            
+
             <!-- Empty cells for days before month starts -->
             @for($i = 0; $i < $startDayOfWeek; $i++)
               <div class="calendar-day other-month"></div>
             @endfor
-            
+
             <!-- Days of the month -->
             @for($day = 1; $day <= $daysInMonth; $day++)
               @php
@@ -156,7 +156,7 @@
                         }
                       }
                     @endphp
-                    <div class="{{ $eventClass }}" 
+                    <div class="{{ $eventClass }}"
                          data-event-id="{{ $event['id'] ?? '' }}"
                          data-event-title="{{ is_array($event) ? $event['title'] : $event }}"
                          data-event-time="{{ $event['time'] ?? '' }}"
@@ -172,7 +172,7 @@
                 @endif
               </div>
             @endfor
-            
+
             <!-- Fill remaining cells -->
             @php
               $totalCells = 42; // 6 rows × 7 days
@@ -376,13 +376,13 @@ function showEventDetails(eventElement) {
         category: eventElement.dataset.eventCategory,
         date: eventElement.closest('.calendar-day').dataset.date
     };
-    
+
     document.getElementById('detailTitle').textContent = currentEventData.title;
     document.getElementById('detailDate').textContent = currentEventData.date;
     document.getElementById('detailTime').textContent = currentEventData.time || 'Not specified';
     document.getElementById('detailCategory').textContent = currentEventData.category;
     document.getElementById('detailDescription').textContent = currentEventData.description || 'No description';
-    
+
     new bootstrap.Modal(document.getElementById('eventDetailsModal')).show();
 }
 
@@ -394,7 +394,7 @@ function editEvent() {
     document.getElementById('editEventCategory').value = currentEventData.category;
     document.getElementById('editEventDescription').value = currentEventData.description;
     document.getElementById('editEventOriginalDate').value = currentEventData.date;
-    
+
     bootstrap.Modal.getInstance(document.getElementById('eventDetailsModal')).hide();
     new bootstrap.Modal(document.getElementById('editEventModal')).show();
 }
@@ -430,9 +430,9 @@ function deleteEvent() {
 // Add event form submission
 document.getElementById('addEventForm').addEventListener('submit', function(e) {
     e.preventDefault();
-    
+
     const formData = new FormData(this);
-    
+
     fetch('{{ route("calendar.store") }}', {
         method: 'POST',
         body: formData,
@@ -458,9 +458,9 @@ document.getElementById('addEventForm').addEventListener('submit', function(e) {
 // Edit event form submission
 document.getElementById('editEventForm').addEventListener('submit', function(e) {
     e.preventDefault();
-    
+
     const formData = new FormData(this);
-    
+
     fetch('{{ route("calendar.update") }}', {
         method: 'POST',
         body: formData,

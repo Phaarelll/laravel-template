@@ -74,12 +74,6 @@
       "menuHeader": "Components"
     },
     {
-      "name": "Cards",
-      "icon": "menu-icon tf-icons bx bx-collection",
-      "slug": "cards-basic",
-      "url": "cards/basic"
-    },
-    {
       "name": "Extended UI",
       "icon": "menu-icon tf-icons bx bx-copy",
       "slug": "extended",
@@ -97,53 +91,13 @@
       ]
     },
     {
-      "url": "icons/boxicons",
-      "icon": "menu-icon tf-icons bx bx-crown",
-      "name": "Boxicons",
-      "slug": "icons-boxicons"
-    },
-    {
-      "menuHeader": "Forms & Tables"
-    },
-    {
-      "name": "Form Elements",
-      "icon": "menu-icon tf-icons bx bx-detail",
-      "slug": "forms",
-      "submenu": [
-        {
-          "url": "forms/basic-inputs",
-          "name": "Basic Inputs",
-          "slug": "forms-basic-inputs"
-        },
-        {
-          "url": "forms/input-groups",
-          "name": "Input groups",
-          "slug": "forms-input-groups"
-        }
-      ]
-    },
-    {
-      "name": "Form Layouts",
-      "icon": "menu-icon tf-icons bx bx-detail",
-      "slug": "form-layouts",
-      "submenu": [
-        {
-          "url": "form/layouts-vertical",
-          "name": "Vertical Form",
-          "slug": "form-layouts-vertical"
-        },
-        {
-          "url": "form/layouts-horizontal",
-          "name": "Horizontal Form",
-          "slug": "form-layouts-horizontal"
-        }
-      ]
+      "menuHeader": ""
     },
     {
       "menuHeader": "Misc"
     },
     {
-      "url": "https://github.com/themeselection/sneat-bootstrap-html-laravel-admin-template-free/issues",
+      "url": "https://github.com/Phaarelll/laravel-template",
       "icon": "menu-icon tf-icons bx bx-support",
       "name": "Support",
       "slug": "support",

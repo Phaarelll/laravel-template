@@ -81,7 +81,7 @@
             <span>{{ $shipping == 0 ? 'Gratis' : 'Rp ' . number_format($shipping, 0, ',', '.') }}</span>
           </div>
           <div class="d-flex justify-content-between mb-2">
-            <span>Tax (8%):</span>
+            <span>Tax (11%):</span>
             <span>Rp {{ number_format($tax, 0, ',', '.') }}</span>
           </div>
           <hr>
@@ -89,7 +89,7 @@
             <strong>Total:</strong>
             <strong>Rp {{ number_format($total, 0, ',', '.') }}</strong>
           </div>
-          
+
           <div class="d-grid gap-2">
             @if($cartItems->count() > 0)
               <button class="btn btn-primary" onclick="checkout()">
